@@ -6,6 +6,9 @@ import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
+import DoneIcon from '@mui/icons-material/Done';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Chip from '@mui/material/Chip';
 
 const Task = (props) => {
     // Helper function to set priority color
@@ -21,7 +24,7 @@ const Task = (props) => {
     return (
         <Grid  
             key={props.id}  
-            size={{ xs: 12, md: 4 }}
+            size={{ xs: 12, sm: 6, md: 4 }}
         >  
             <Card    
                 sx={{      
@@ -52,7 +55,13 @@ const Task = (props) => {
                             color="text.primary"        >          
                             Due: {props.deadline}        
                         </Typography>      
-                    </Box>      
+                    </Box>
+                    <Chip 
+                        label={props.priority} 
+                        color={props.priority === "High" ? "error" : "default"} 
+                        size="small" 
+                        sx={{ mt: 2 }} 
+                    />
 
                     <Typography        
                         component="p"        
@@ -79,12 +88,14 @@ const Task = (props) => {
                         variant="contained"        
                         size="small"        
                         color="success"        
+                        startIcon={<DoneIcon />}        
                         onClick={props.markDone}      >        
                         Done      </Button>      
                     <Button        
                         variant="contained"        
                         size="small"        
                         color="error"        
+                        startIcon={<DeleteIcon />}        
                         onClick={props.deleteTask}      >        
                         Delete      </Button>    
                 </CardActions>  
