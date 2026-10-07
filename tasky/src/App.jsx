@@ -7,16 +7,17 @@ import "./App.css";
 function App() {
   const [ taskState, setTaskState ] = useState({
     tasks: [
-      { id: 1, title: "Dishes", description: "Empty dishwasher", deadline: "Today", done: false },
-      { id: 2, title: "Laundry", description: "Fold clothes and put away", deadline: "Tomorrow", done: false },
-      { id: 3, title: "Tidy up", deadline: "Today", done: false }
+      { id: 1, title: "Dishes", description: "Empty dishwasher", deadline: "Today", done: false, priority: "Medium" },
+      { id: 2, title: "Laundry", description: "Fold clothes and put away", deadline: "Tomorrow", done: false, priority: "Low" },
+      { id: 3, title: "Tidy up", deadline: "Today", done: false, priority: "High" }
     ]
   });
 
   const [ formState, setFormState ] = useState({
     title: "",
     description: "",
-    deadline: ""
+    deadline: "",
+    priority: "Low"
   });
 
   const doneHandler = (taskIndex) => {
@@ -43,20 +44,21 @@ function App() {
       case "deadline":
           form.deadline = event.target.value;
           break;
+      case "priority":
+          form.priority = event.target.value;
+          break;
       default:
           form = formState;
     }
     setFormState(form);
   }
 
-  console.log(formState);
-
   const formSubmitHandler = (event) => {
     event.preventDefault();
     const tasks = [...taskState.tasks];
     const form = {...formState};
     form.id = uuidv4();
-    form.done = false; // ensures new tasks start as not done
+    form.done = false;
     tasks.push(form);
     setTaskState({tasks});
   }
@@ -71,6 +73,7 @@ function App() {
           deadline={task.deadline}
           key={task.id}
           done={task.done}
+          priority={task.priority}
           markDone={() => doneHandler(index)}
           deleteTask={() => deleteHandler(index)}
         />
