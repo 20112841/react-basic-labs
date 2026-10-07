@@ -1,13 +1,34 @@
-import './App.css';
+import { useState } from "react";
 import Task from './components/Task';
+import './App.css';
 
 function App() {
+  const [ taskState, setTaskState ] = useState({
+    tasks: [
+      { id: 1, title: "Dishes", description: "Empty dishwasher", deadline: "Today", done: false },
+      { id: 2, title: "Laundry", description: "Fold clothes and put away", deadline: "Tomorrow", done: false },
+      { id: 3, title: "Tidy up", deadline: "Today", done: false }
+    ]
+  });
+
+  const doneHandler = (taskIndex) => {
+    const tasks = [...taskState.tasks];
+    tasks[taskIndex].done = !tasks[taskIndex].done;
+    setTaskState({ tasks });
+  }
+
   return (
-    <div className="container">
-      <h1>Tasky</h1>
-      <Task title="Dishes" deadline="Today" description="Wash dishes and dry them" />
-      <Task title="Laundry" deadline="Tomorrow" description="Fold laundry and put away" />
-      <Task title="Tidy" deadline="Today" description="Clean up the living room" />
+    <div>
+      {taskState.tasks.map((task, index) => (
+        <Task 
+          title={task.title}
+          description={task.description}
+          deadline={task.deadline}
+          key={task.id}
+          done={task.done}
+          markDone={() => doneHandler(index)}
+        />
+      ))}
     </div>
   );
 }
